@@ -1,0 +1,15 @@
+server:
+    port: 9101
+
+spring:
+  data:
+    cassandra:
+      contact-points: 10.45.250.114,10.45.250.113,10.45.250.112
+      port: 9042
+      keyspace-name: testKeySpace
+      username: ""
+      password: ""
+
+logging:
+  level:
+    org.hibernate: DEBUG
