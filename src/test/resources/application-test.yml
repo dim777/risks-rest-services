@@ -13,3 +13,12 @@ spring:
 logging:
   level:
     org.hibernate: DEBUG
+
+app:
+  config:
+    id: 1
+  configServer: "http://localhost:9101"
+  path:
+    config: "/config"
+    loanqualitycategories: "/risksparams/loanqualitycategories"
+    loanservcoeffs: "/risksparams/loanservcoeffs"
