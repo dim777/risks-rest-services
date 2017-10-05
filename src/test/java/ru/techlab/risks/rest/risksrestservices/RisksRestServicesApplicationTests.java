@@ -5,22 +5,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
-import ru.techlab.risks.rest.risksrestservices.config.AppConfig;
 import ru.techlab.risks.rest.risksrestservices.model.BaseConfig;
 import ru.techlab.risks.rest.risksrestservices.model.LoanQualityCategory;
+import ru.techlab.risks.rest.risksrestservices.model.LoanQualityCategoryMatrix;
 import ru.techlab.risks.rest.risksrestservices.model.LoanServCoeff;
 
 import java.util.List;
@@ -42,7 +39,6 @@ public class RisksRestServicesApplicationTests {
 		mockServer = MockRestServiceServer.createServer(restTemplate);
 	}
 
-
 	@Value("${app.configServer}")
 	private String configServer;
 	@Value("${app.path.config}")
@@ -51,6 +47,8 @@ public class RisksRestServicesApplicationTests {
 	private String loanQualityCategories;
 	@Value("${app.path.loanservcoeffs}")
 	private String loanServCoeffs;
+	@Value("${app.path.loanservcoeffsmatrix}")
+	private String loanServCoeffsMatrix;
 
 	@Test
 	public void getConfig() {
@@ -100,5 +98,21 @@ public class RisksRestServicesApplicationTests {
 						});
 		List<LoanServCoeff> loanQualityCategories = responce.getBody();
 		Assert.assertEquals(3, loanQualityCategories.size());
+	}
+
+	@Test
+	public void getLoanServCoeffsMatrix() {
+		String responceBody = "[{\"loanServCoeffId\":1,\"finState1\":1,\"finState2\":2,\"finState3\":3},{\"loanServCoeffId\":2,\"finState1\":2,\"finState2\":3,\"finState3\":4},{\"loanServCoeffId\":3,\"finState1\":3,\"finState2\":4,\"finState3\":5}]";
+
+		mockServer.expect(requestTo(configServer + loanServCoeffsMatrix))
+				.andExpect(method(HttpMethod.GET))
+				.andRespond(withSuccess(responceBody, MediaType.APPLICATION_JSON));
+
+		ResponseEntity<List<LoanQualityCategoryMatrix>> responce =
+				restTemplate.exchange(configServer + loanServCoeffsMatrix,
+						HttpMethod.GET, null, new ParameterizedTypeReference<List<LoanQualityCategoryMatrix>>() {
+						});
+		List<LoanQualityCategoryMatrix> loanQualityCategoryMatrix = responce.getBody();
+		Assert.assertEquals(3, loanQualityCategoryMatrix.size());
 	}
 }
