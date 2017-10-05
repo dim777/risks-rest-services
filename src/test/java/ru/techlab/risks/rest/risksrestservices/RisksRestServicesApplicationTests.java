@@ -1,5 +1,7 @@
 package ru.techlab.risks.rest.risksrestservices;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import org.joda.time.LocalDateTime;
 import org.junit.Assert;
 import org.junit.Before;
@@ -20,6 +22,7 @@ import ru.techlab.risks.rest.risksrestservices.model.LoanQualityCategory;
 import ru.techlab.risks.rest.risksrestservices.model.LoanQualityCategoryMatrix;
 import ru.techlab.risks.rest.risksrestservices.model.LoanServCoeff;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -32,6 +35,8 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 public class RisksRestServicesApplicationTests {
 	private MockRestServiceServer mockServer;
 	private RestTemplate restTemplate;
+
+	private static ObjectMapper mapper = new ObjectMapper();
 
 	@Before
 	public void setup() {
@@ -85,7 +90,7 @@ public class RisksRestServicesApplicationTests {
 	}
 
 	@Test
-	public void getLoanServCoeffs() {
+	public void getLoanServCoeffs() throws IOException {
 		String responceBody = "[{\"type\":\"GOOD\",\"id\":3,\"lastDays\":180,\"moreThanDays\":180},{\"type\":\"MID\",\"id\":2,\"lastDays\":180,\"moreThanDays\":30},{\"type\":\"BAD\",\"id\":1,\"lastDays\":180,\"moreThanDays\":5}]";
 
 		mockServer.expect(requestTo(configServer + loanServCoeffs))
@@ -97,11 +102,18 @@ public class RisksRestServicesApplicationTests {
 						HttpMethod.GET, null, new ParameterizedTypeReference<List<LoanServCoeff>>() {
 						});
 		List<LoanServCoeff> loanQualityCategories = responce.getBody();
-		Assert.assertEquals(3, loanQualityCategories.size());
+
+		List<LoanServCoeff> list = mapper.readValue(responceBody,
+				TypeFactory.defaultInstance().constructCollectionType(List.class,
+						LoanServCoeff.class));
+
+		for(int i = 0; i < list.size(); i++){
+			Assert.assertEquals(list.get(i), loanQualityCategories.get(i));
+		}
 	}
 
 	@Test
-	public void getLoanServCoeffsMatrix() {
+	public void getLoanServCoeffsMatrix() throws IOException {
 		String responceBody = "[{\"loanServCoeffId\":1,\"finState1\":1,\"finState2\":2,\"finState3\":3},{\"loanServCoeffId\":2,\"finState1\":2,\"finState2\":3,\"finState3\":4},{\"loanServCoeffId\":3,\"finState1\":3,\"finState2\":4,\"finState3\":5}]";
 
 		mockServer.expect(requestTo(configServer + loanServCoeffsMatrix))
@@ -113,6 +125,14 @@ public class RisksRestServicesApplicationTests {
 						HttpMethod.GET, null, new ParameterizedTypeReference<List<LoanQualityCategoryMatrix>>() {
 						});
 		List<LoanQualityCategoryMatrix> loanQualityCategoryMatrix = responce.getBody();
-		Assert.assertEquals(3, loanQualityCategoryMatrix.size());
+
+		List<LoanQualityCategoryMatrix> list = mapper.readValue(responceBody,
+				TypeFactory.defaultInstance().constructCollectionType(List.class,
+						LoanQualityCategoryMatrix.class));
+
+		for(int i = 0; i < list.size(); i++){
+			Assert.assertEquals(list.get(i), loanQualityCategoryMatrix.get(i));
+		}
+
 	}
 }
