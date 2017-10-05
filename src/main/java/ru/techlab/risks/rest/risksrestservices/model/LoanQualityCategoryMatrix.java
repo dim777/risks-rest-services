@@ -20,9 +20,9 @@ public class LoanQualityCategoryMatrix implements Serializable {
     private Integer loanServCoeffId;
 
     @Column("fs1")
-    private Integer finState1;
+    private Integer loanQualityByFsType1;
     @Column("fs2")
-    private Integer finState2;
+    private Integer loanQualityByFsType2;
     @Column("fs3")
-    private Integer finState3;
+    private Integer loanQualityByFsType3;
 }
