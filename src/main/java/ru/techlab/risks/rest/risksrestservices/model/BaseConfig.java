@@ -1,5 +1,6 @@
 package ru.techlab.risks.rest.risksrestservices.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import org.joda.time.LocalDateTime;
@@ -27,6 +28,7 @@ public class BaseConfig implements Config, Serializable {
 
 
     @Override
+    @JsonIgnore
     public LocalDateTime getJodaEndOfDay() {
         return LocalDateTime.parse(endOfDay);
     }
