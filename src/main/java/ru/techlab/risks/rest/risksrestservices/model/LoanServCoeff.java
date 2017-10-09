@@ -22,9 +22,15 @@ public class LoanServCoeff implements Serializable {
     @PrimaryKeyColumn(name = "id", ordinal = 1, type = PrimaryKeyType.CLUSTERED)
     private Integer id;
 
-    @Column("lastdays")
-    private Integer lastDays;
+    @Column("isle")
+    private Boolean isLegalEntitity;
 
-    @Column("morethandays")
-    private Integer moreThanDays;
+    @Column("forlastndays")
+    private Integer forLastNDays;
+
+    @Column("moreoreqthandays")
+    private Integer moreOrEqThanDays;
+
+    @Column("lessthandays")
+    private Integer lessThanDays;
 }

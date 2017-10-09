@@ -1,6 +1,7 @@
 package ru.techlab.risks.rest.risksrestservices.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import ru.techlab.risks.rest.risksrestservices.repository.LoanServCoeffRepositor
  */
 @RestController
 @RequestMapping("/risksparams")
+@CrossOrigin(value = "http://localhost:8222")
 public class RisksParamsController {
     @Autowired
     private LoanQualityCategoryRepository loanQualityCategoryRepository;

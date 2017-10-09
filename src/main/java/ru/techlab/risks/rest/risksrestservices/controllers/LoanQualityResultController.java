@@ -1,10 +1,7 @@
 package ru.techlab.risks.rest.risksrestservices.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.techlab.risks.rest.risksrestservices.model.LoanQualityResult;
 import ru.techlab.risks.rest.risksrestservices.repository.LoanQualityResultRepository;
 
@@ -15,6 +12,7 @@ import java.util.Collection;
  */
 @RestController
 @RequestMapping("/loansquality")
+@CrossOrigin(value = "http://localhost:8222")
 public class LoanQualityResultController {
     @Autowired
     private LoanQualityResultRepository loanQualityResultRepository;

@@ -100,7 +100,7 @@ public class RisksRestServicesApplicationTests {
 	 */
 	@Test
 	public void getLoanServCoeffs() throws IOException {
-		String responseBody = "[{\"type\":\"GOOD\",\"id\":3,\"lastDays\":180,\"moreThanDays\":180},{\"type\":\"MID\",\"id\":2,\"lastDays\":180,\"moreThanDays\":30},{\"type\":\"BAD\",\"id\":1,\"lastDays\":180,\"moreThanDays\":5}]";
+		String responseBody = "[{\"type\":\"MID\",\"id\":5,\"isLegalEntitity\":false,\"forLastNDays\":180,\"moreOrEqThanDays\":30,\"lessThanDays\":60},{\"type\":\"GOOD\",\"id\":1,\"isLegalEntitity\":true,\"forLastNDays\":180,\"moreOrEqThanDays\":0,\"lessThanDays\":5},{\"type\":\"MID\",\"id\":2,\"isLegalEntitity\":true,\"forLastNDays\":180,\"moreOrEqThanDays\":5,\"lessThanDays\":30},{\"type\":\"GOOD\",\"id\":4,\"isLegalEntitity\":false,\"forLastNDays\":180,\"moreOrEqThanDays\":0,\"lessThanDays\":30},{\"type\":\"BAD\",\"id\":6,\"isLegalEntitity\":false,\"forLastNDays\":180,\"moreOrEqThanDays\":60,\"lessThanDays\":9999999},{\"type\":\"BAD\",\"id\":3,\"isLegalEntitity\":true,\"forLastNDays\":180,\"moreOrEqThanDays\":30,\"lessThanDays\":9999999}]";
 
 		mockServer.expect(requestTo(configServer + loanServCoeffs))
 				.andExpect(method(HttpMethod.GET))
